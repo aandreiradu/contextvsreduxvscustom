@@ -4,15 +4,22 @@ import FavoriteItem from '../components/Favorites/FavoriteItem';
 import './Products.module.css';
 import classes from './Products.module.css';
 import { ProductsContext } from '../context/products-context';
+import { useStore } from '../hooks-store/store';
 
 
 const Favorites = () => {
     // redux-toolkit
-    const favoriteProducts = useSelector((state) => state.products.products).filter((product) => product.isFavorite);
-    console.log(favoriteProducts);
+    // const favoriteProducts = useSelector((state) => state.products.products).filter((product) => product.isFavorite);
+    // console.log(favoriteProducts);
 
     // contextAPI
     // const favoriteProducts = useContext(ProductsContext).products.filter((prod) => prod.isFavorite);
+
+
+    // custom hook
+    const [state, dispatch] = useStore();
+    const favoriteProducts = state.products.filter(p => p.isFavorite);
+
     const fallBackContent = (
         <p className='placeholder' style={{ textAlign: 'center' }}>
             No favorites products. Maybe add some? 😉
@@ -25,7 +32,7 @@ const Favorites = () => {
 
     return (
         <ul className={classes['products-list']}>
-            {favoriteProducts.map((item) => (
+            {favoriteProducts && favoriteProducts.map((item) => (
                 <FavoriteItem
                     title={item.title}
                     description={item.description}

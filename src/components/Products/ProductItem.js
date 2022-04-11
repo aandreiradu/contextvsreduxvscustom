@@ -4,21 +4,28 @@ import classes from './ProductItem.module.css'
 import { useDispatch } from 'react-redux'
 import { productsActions } from '../../store/products-slice';
 import { ProductsContext } from '../../context/products-context';
+import { useStore } from '../../hooks-store/store';
 
-const ProductItem = (props) => {
+const ProductItem = React.memo(props => {
+    console.log('render');
     const { isFav, title, description, id } = props;
+    const [globalState, dispatch] = useStore(false);
     // toolkit
-    const dispatch = useDispatch();
+    // const dispatch = useDispatch();
 
     // context
     // const toggleFav = useContext(ProductsContext).toggleFav;
 
     const favoriteHandler = (e) => {
+
         // toolkit
-        dispatch(productsActions.toggleFav(id));
+        // dispatch(productsActions.toggleFav(id));
 
         // context
         // toggleFav(id);
+
+        // customhook
+        dispatch('TOGGLE_FAV', id);
     };
 
     return (
@@ -36,6 +43,6 @@ const ProductItem = (props) => {
             </div>
         </Card>
     )
-}
+});
 
 export default ProductItem
